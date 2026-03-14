@@ -1,45 +1,105 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Will You Be My Valentine?</title>
+    <title>سؤال مهم للعيد!</title>
     <style>
-        body { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; font-family: Arial, sans-serif; background-color: #ffe4e1; overflow: hidden; }
-        h1 { color: #d63384; text-align: center; }
-        .buttons { display: flex; gap: 20px; margin-top: 20px; }
-        button { padding: 15px 30px; font-size: 1.2rem; border: none; border-radius: 10px; cursor: pointer; transition: 0.3s; }
-        #yesBtn { background-color: #ff4d6d; color: white; }
-        #noBtn { background-color: #888; color: white; position: relative; }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0fdf4; /* لون أخضر فاتح مريح */
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 90%;
+        }
+        h1 {
+            color: #166534;
+            margin-bottom: 30px;
+            transition: 0.3s;
+        }
+        .buttons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 12px 25px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s, font-size 0.2s;
+            font-weight: bold;
+        }
+        #yesBtn {
+            background-color: #22c55e;
+            color: white;
+        }
+        #noBtn {
+            background-color: #ef4444;
+            color: white;
+        }
     </style>
 </head>
 <body>
-    <h1 id="question">Will you be my Valentine? ❤️</h1>
-    <div class="buttons">
-        <button id="yesBtn">Yes! 😍</button>
-        <button id="noBtn">No 😢</button>
+
+    <div class="container">
+        <h1 id="question">هل راح تتابعين حسابي بالعيد؟ 🌙✨</h1>
+        <div class="buttons">
+            <button id="yesBtn">نعم أكيد! 😍</button>
+            <button id="noBtn">لا 😢</button>
+        </div>
     </div>
 
     <script>
-        const noBtn = document.getElementById("noBtn");
-        const yesBtn = document.getElementById("yesBtn");
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const question = document.getElementById('question');
 
-        // جعل زر "لا" يهرب من الماوس أو اللمس
-        noBtn.addEventListener("mouseover", moveButton);
-        noBtn.addEventListener("touchstart", moveButton);
+        let yesFontSize = 1.2; // الحجم الابتدائي بالـ rem
+        let noFontSize = 1.2;
+        let paddingVertical = 12;
+        let paddingHorizontal = 25;
 
-        function moveButton() {
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-            noBtn.style.position = "absolute";
-            noBtn.style.left = `${x}px`;
-            noBtn.style.top = `${y}px`;
-        }
+        noBtn.addEventListener('click', () => {
+            // تكبير زر نعم
+            yesFontSize += 0.5;
+            paddingVertical += 5;
+            paddingHorizontal += 10;
+            
+            yesBtn.style.fontSize = yesFontSize + "rem";
+            yesBtn.style.padding = `${paddingVertical}px ${paddingHorizontal}px`;
 
-        yesBtn.onclick = () => {
-            document.getElementById("question").innerHTML = "I knew it! ❤️ I Love You!";
-            document.querySelector(".buttons").style.display = "none";
-        };
+            // تصغير زر لا
+            noFontSize -= 0.1;
+            if (noFontSize > 0.5) { // نمنع الزر من الاختفاء تماماً
+                noBtn.style.fontSize = noFontSize + "rem";
+                noBtn.style.padding = "5px 10px";
+            } else {
+                noBtn.style.opacity = "0.5";
+            }
+        });
+
+        yesBtn.addEventListener('click', () => {
+            question.innerHTML = "جنت متوقع راح تتابعيني! ❤️<br>عيدج مبارك مقدماً ✨";
+            document.querySelector('.buttons').style.display = "none";
+            document.body.style.backgroundColor = "#dcfce7";
+        });
     </script>
 </body>
 </html>
+
