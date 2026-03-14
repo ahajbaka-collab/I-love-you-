@@ -13,7 +13,25 @@
             height: 100vh;
             margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0fdf4; /* لون أخضر فاتح مريح */
+            body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Cairo', sans-serif;
+    
+    /* الكود الجديد للخلفية */
+    background-image: url('رابط_الصورة_هنا'); 
+    background-size: cover; /* تجعل الصورة تغطي كامل الشاشة */
+    background-position: center; /* توسيط الصورة */
+    background-repeat: no-repeat; /* عدم تكرار الصورة */
+    background-attachment: fixed; /* تثبيت الخلفية عند التحريك */
+    
+    overflow: hidden;
+}
+
             overflow: hidden;
         }
         .container {
