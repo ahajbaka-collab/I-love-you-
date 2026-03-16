@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لعبة البيضة الغامضة</title>
+    <title>تحدي المطرقة والبيضة الغامضة</title>
     <style>
         body {
             display: flex;
@@ -12,85 +12,84 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
-            background-color: #f0f8ff;
+            background-color: #f7f9fc;
             font-family: 'Arial', sans-serif;
             overflow: hidden;
+            /* استبدال المؤشر بالمطرقة */
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="%238B4513" d="M2 17.15V21a1 1 0 0 0 1 1h3.85a1 1 0 0 0 .71-.29L21.71 7.56a1 1 0 0 0 0-1.41l-3.85-3.85a1 1 0 0 0-1.41 0l-4.42 4.41-1.41-1.41-1.42 1.41 1.41 1.41L2.29 16.44a1 1 0 0 0-.29.71zm15.76-13.3l2.44 2.44-11 11H6.76V14.84l11-11z"/><circle cx="12" cy="12" r="1.5" fill="%23C0C0C0"/></svg>') 16 16, auto;
         }
+
+        body:active {
+            /* تأثير بسيط عند الضغط لتبدو كضربة مطرقة */
+            transform: translateY(2px);
+        }
+
+        #game-ui {
+            text-align: center;
+        }
+
+        h1 { color: #5a67d8; margin-bottom: 5px;}
+        p.desc { font-size: 1.2rem; color: #4a5568; margin-bottom: 30px;}
 
         #egg {
-            font-size: 120px;
-            cursor: pointer;
-            transition: transform 0.1s;
+            font-size: 150px;
             user-select: none;
-            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+            transition: text-shadow 0.2s;
         }
 
-        #egg:active {
-            transform: scale(0.9) rotate(5deg);
-        }
-
-        .counter {
-            font-size: 24px;
-            color: #333;
-            margin-top: 20px;
-            font-weight: bold;
-        }
-
-        #message {
+        /* تنسيق لرسالة النهاية مع الدمية */
+        #doll-stage {
             display: none;
             text-align: center;
-            animation: pop 0.5s ease-out;
+            animation: pop 0.6s ease-out forwards;
+        }
+
+        .doll-avatar {
+            font-size: 180px;
+            display: block;
+            margin-bottom: -15px; /* لتقريب النص */
+        }
+
+        .speech-bubble {
+            background-color: white;
+            padding: 20px 30px;
+            border-radius: 20px;
+            border: 2px solid #5a67d8;
+            font-size: 30px;
+            font-weight: bold;
+            color: #2d3748;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            top: -15px; /* السهم للأعلى */
+            right: 50px;
+            border-width: 0 15px 15px;
+            border-style: solid;
+            border-color: #5a67d8 transparent;
         }
 
         @keyframes pop {
-            0% { transform: scale(0); }
-            100% { transform: scale(1.2); }
+            0% { transform: scale(0) rotate(-10deg); opacity: 0; }
+            70% { transform: scale(1.1) rotate(5deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
         }
 
-        h1 { color: #ff6b6b; }
+        button.retry {
+            margin-top: 30px;
+            padding: 10px 25px;
+            background-color: #5a67d8;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
 
-    <div id="game-ui">
-        <h1>اضغط على البيضة لتكتشف السر!</h1>
-        <div id="egg">🥚</div>
-        <div class="counter">بقي <span id="clicks-left">50</span> نقرة</div>
-    </div>
-
-    <div id="message">
-        <h1 style="font-size: 50px;">🐣 مبروووك!</h1>
-        <p style="font-size: 20px;">لقد فقست البيضة وخرج الصوص الصغير!</p>
-        <button onclick="location.reload()" style="padding: 10px 20px; cursor: pointer;">العب مرة أخرى</button>
-    </div>
-
-    <script>
-        let clicks = 5; // يمكنك تغيير عدد النقرات من هنا
-        const egg = document.getElementById('egg');
-        const clicksLeft = document.getElementById('clicks-left');
-        const gameUI = document.getElementById('game-ui');
-        const message = document.getElementById('message');
-
-        // مصفوفة تعابير البيضة وهي تنكسر
-        const stages = ['🥚', '🥚', '🐣', '🐥'];
-
-        egg.addEventListener('click', () => {
-            clicks--;
-            clicksLeft.innerText = clicks;
-
-            // اهتزاز بسيط عند النقرة
-            egg.style.transform = `translateX(${Math.random() * 5}px)`;
-
-            if (clicks <= 10) {
-                egg.innerText = '🐣'; // بدأت تفقس
-            }
-
-            if (clicks <= 0) {
-                gameUI.style.display = 'none';
-                message.style.display = 'block';
-                // إضافة بعض القصاصات الورقية (Confetti) لو أردت لاحقاً
-            }
-        });
-    </script>
-</body>
-</html>
+    
