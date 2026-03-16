@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سؤال مهم للعيد!</title>
+    <title>لعبة البيضة الغامضة</title>
     <style>
         body {
             display: flex;
@@ -12,112 +12,85 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-    font-family: 'Cairo', sans-serif;
-    
-    /* الكود الجديد للخلفية */
-    background-image: url('jpg.IMG_20260314_083845_087'); 
-    background-size: cover; /* تجعل الصورة تغطي كامل الشاشة */
-    background-position: center; /* توسيط الصورة */
-    background-repeat: no-repeat; /* عدم تكرار الصورة */
-    background-attachment: fixed; /* تثبيت الخلفية عند التحريك */
-    
-    overflow: hidden;
-}
-
+            background-color: #f0f8ff;
+            font-family: 'Arial', sans-serif;
             overflow: hidden;
         }
-        .container {
-            text-align: center;
-            padding: 20px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            max-width: 90%;
-        }
-        h1 {
-            color: #166534;
-            margin-bottom: 30px;
-            transition: 0.3s;
-        }
-        .buttons {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        button {
-            padding: 12px 25px;
-            font-size: 1.2rem;
-            border: none;
-            border-radius: 12px;
+
+        #egg {
+            font-size: 120px;
             cursor: pointer;
-            transition: transform 0.2s, font-size 0.2s;
+            transition: transform 0.1s;
+            user-select: none;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+        }
+
+        #egg:active {
+            transform: scale(0.9) rotate(5deg);
+        }
+
+        .counter {
+            font-size: 24px;
+            color: #333;
+            margin-top: 20px;
             font-weight: bold;
         }
-        #yesBtn {
-            background-color: #22c55e;
-            color: white;
+
+        #message {
+            display: none;
+            text-align: center;
+            animation: pop 0.5s ease-out;
         }
-        #noBtn {
-            background-color: #ef4444;
-            color: white;
+
+        @keyframes pop {
+            0% { transform: scale(0); }
+            100% { transform: scale(1.2); }
         }
+
+        h1 { color: #ff6b6b; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1 id="question">فطيم راح تتابعين حسابي بالعيد؟ 🌙✨</h1>
-        <div class="buttons">
-            <button id="yesBtn">نعم أكيد! 😍</button>
-            <button id="noBtn">لا 😢</button>
-        </div>
+    <div id="game-ui">
+        <h1>اضغط على البيضة لتكتشف السر!</h1>
+        <div id="egg">🥚</div>
+        <div class="counter">بقي <span id="clicks-left">50</span> نقرة</div>
+    </div>
+
+    <div id="message">
+        <h1 style="font-size: 50px;">🐣 مبروووك!</h1>
+        <p style="font-size: 20px;">لقد فقست البيضة وخرج الصوص الصغير!</p>
+        <button onclick="location.reload()" style="padding: 10px 20px; cursor: pointer;">العب مرة أخرى</button>
     </div>
 
     <script>
-        const yesBtn = document.getElementById('yesBtn');
-        const noBtn = document.getElementById('noBtn');
-        const question = document.getElementById('question');
+        let clicks = 5; // يمكنك تغيير عدد النقرات من هنا
+        const egg = document.getElementById('egg');
+        const clicksLeft = document.getElementById('clicks-left');
+        const gameUI = document.getElementById('game-ui');
+        const message = document.getElementById('message');
 
-        let yesFontSize = 1.2; // الحجم الابتدائي بالـ rem
-        let noFontSize = 1.2;
-        let paddingVertical = 12;
-        let paddingHorizontal = 25;
+        // مصفوفة تعابير البيضة وهي تنكسر
+        const stages = ['🥚', '🥚', '🐣', '🐥'];
 
-        noBtn.addEventListener('click', () => {
-            // تكبير زر نعم
-            yesFontSize += 0.5;
-            paddingVertical += 5;
-            paddingHorizontal += 10;
-            
-            yesBtn.style.fontSize = yesFontSize + "rem";
-            yesBtn.style.padding = `${paddingVertical}px ${paddingHorizontal}px`;
+        egg.addEventListener('click', () => {
+            clicks--;
+            clicksLeft.innerText = clicks;
 
-            // تصغير زر لا
-            noFontSize -= 0.1;
-            if (noFontSize > 0.5) { // نمنع الزر من الاختفاء تماماً
-                noBtn.style.fontSize = noFontSize + "rem";
-                noBtn.style.padding = "5px 10px";
-            } else {
-                noBtn.style.opacity = "0.5";
+            // اهتزاز بسيط عند النقرة
+            egg.style.transform = `translateX(${Math.random() * 5}px)`;
+
+            if (clicks <= 10) {
+                egg.innerText = '🐣'; // بدأت تفقس
             }
-        });
 
-        yesBtn.addEventListener('click', () => {
-            question.innerHTML = "جنت متوقع راح تتابعيني! ❤️<br>عيدج مبارك مقدماً يروحي  ✨";
-            document.querySelector('.buttons').style.display = "none";
-            document.body.style.backgroundColor = "#dcfce7";
+            if (clicks <= 0) {
+                gameUI.style.display = 'none';
+                message.style.display = 'block';
+                // إضافة بعض القصاصات الورقية (Confetti) لو أردت لاحقاً
+            }
         });
     </script>
 </body>
 </html>
-
